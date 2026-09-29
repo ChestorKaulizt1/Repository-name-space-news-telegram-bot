@@ -9,7 +9,7 @@ on:
 jobs:
   collect-news:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
 
@@ -25,6 +25,17 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+
+      - name: Check repository version
+        run: |
+          echo "=== COMMIT ==="
+          git rev-parse HEAD
+
+          echo "=== RSS PARSER ==="
+          grep -n "calculate_relevance_score" app/rss_parser.py
+
+          echo "=== FILTER ==="
+          grep -n "Пропущено" app/rss_parser.py
 
       - name: Run news collector
         run: |
